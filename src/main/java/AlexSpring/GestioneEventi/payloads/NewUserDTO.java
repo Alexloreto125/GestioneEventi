@@ -10,14 +10,14 @@ public record NewUserDTO(
         //! QUESTO SARA' IL PAYLOAD
         //! ABBIAMO STABILITO ALCUNI CONTROLLI AL PAYLOAD
         @NotEmpty(message = "Il nome utente è obbligatorio")
-                @Size(min = 3,max = 20,message = "Il nome utente deve essere compreso tra i 3 e i 20 caratteri")
+        @Size(min = 3, max = 20, message = "Il nome utente deve essere compreso tra i 3 e i 20 caratteri")
         String name,
 
         @NotEmpty(message = "Il cognome utente è obbligatorio")
-        @Size(min = 3,max = 20,message = "Il cognome utente deve essere compreso tra i 3 e i 20 caratteri")
+        @Size(min = 3, max = 20, message = "Il cognome utente deve essere compreso tra i 3 e i 20 caratteri")
         String surname,
         @NotEmpty(message = "L'email utente è obbligatoria")
-       @Email(message = "Email non valida")
+        @Email(message = "Email non valida")
         String email,
 
         @NotEmpty(message = "La password è obbligatoria")

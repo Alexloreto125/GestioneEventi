@@ -19,7 +19,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
+
+    @PostMapping("/register")
     public NewUserRespDTO createUser(@RequestBody @Validated NewUserDTO payload, BindingResult validation){
 
         if (validation.hasErrors()){
@@ -29,5 +30,7 @@ public class UserController {
         return new NewUserRespDTO(this.userService.save(payload).getId());
 
     }
+
+
 
 }

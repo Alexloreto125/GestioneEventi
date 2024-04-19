@@ -2,6 +2,7 @@ package AlexSpring.GestioneEventi.services;
 
 import AlexSpring.GestioneEventi.entities.User;
 import AlexSpring.GestioneEventi.exceptions.BadRequestException;
+import AlexSpring.GestioneEventi.exceptions.NotFoundException;
 import AlexSpring.GestioneEventi.payloads.NewUserDTO;
 import AlexSpring.GestioneEventi.repositories.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +29,20 @@ public class UserService {
     }
 
 
+
+
     public User save(NewUserDTO body) {
         //? L'email è già in uso? verifico
         this.userDAO.findByEmail(body.email()).ifPresent(user -> {
             throw new BadRequestException("L'email " + body.email() + " è già in uso");
         });
 
-        User newUser = new User(body.name(), body.surname(), body.name(), body.password());
+        User newUser = new User(body.name(), body.surname(), body.email(), body.password());
 
         return this.userDAO.save(newUser);
+    }
+
+    public User findByEmail(String email) {
+        return userDAO.findByEmail(email).orElseThrow(() -> new NotFoundException("Utente con email " + email + " non trovato!"));
     }
 }
