@@ -1,9 +1,13 @@
 package AlexSpring.GestioneEventi.services;
 
+import AlexSpring.GestioneEventi.entities.Events;
+import AlexSpring.GestioneEventi.entities.Partecipazioni;
 import AlexSpring.GestioneEventi.entities.User;
 import AlexSpring.GestioneEventi.exceptions.BadRequestException;
 import AlexSpring.GestioneEventi.exceptions.NotFoundException;
 import AlexSpring.GestioneEventi.payloads.NewUserDTO;
+import AlexSpring.GestioneEventi.repositories.EventDAO;
+import AlexSpring.GestioneEventi.repositories.PartecipazioniDAO;
 import AlexSpring.GestioneEventi.repositories.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +21,10 @@ public class UserService {
 
     @Autowired
     private UserDAO userDAO;
+    @Autowired
+    private EventDAO eventDAO;
+    @Autowired
+    private PartecipazioniDAO partecipazioniDAO;
 
     //! CREIAMO IL METODO PER RIPORTARE GLI USERS
     //TODO ABBIAMO USATO IL PAGEABLE E IL METODO USER DAO INTEGRATO CON JPA REPOSITORY
@@ -45,4 +53,17 @@ public class UserService {
     public User findByEmail(String email) {
         return userDAO.findByEmail(email).orElseThrow(() -> new NotFoundException("Utente con email " + email + " non trovato!"));
     }
+
+
+
+    public Partecipazioni addUserToEvent(User user, Long eventId){
+        Events event= this.eventDAO.findById(eventId).orElseThrow(()->new NotFoundException(String.valueOf(eventId)));
+        Partecipazioni partecipazioni= new Partecipazioni();
+//        partecipazioni.setUser(user);
+        partecipazioni.setName(user.getName());
+        partecipazioni.setSurname(user.getUsername());
+        partecipazioni.setEvent(event);
+      return   partecipazioniDAO.save(partecipazioni);
+    }
+
 }

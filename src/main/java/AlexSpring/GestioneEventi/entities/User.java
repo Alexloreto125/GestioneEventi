@@ -7,9 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "Users")
@@ -32,6 +30,13 @@ public class User implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER) //* FETCH TYPE EAGER PERCHE' DA ERRORE NELLA COLLEZIONE ROLE:
+
+    //? "Could not write JSON: failed to lazily initialize a collection of role: AlexSpring.GestioneEventi.entities.User.partecipazioni: could not initialize proxy - no Session"
+    //?    "path": "/organizator/me"
+    @JsonIgnore
+    private Set<Partecipazioni> partecipazioni = new HashSet<>();
 
     public User(String name, String surname, String email, String password) {
         this.name = name;

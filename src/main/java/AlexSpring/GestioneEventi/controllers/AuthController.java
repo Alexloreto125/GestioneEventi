@@ -25,10 +25,7 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @GetMapping
-    public Page<User> getAllUsers(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "20") int size,@RequestParam(defaultValue = "surname") String sortBy){
-        return this.userService.getUsers(page,size,sortBy);
-    }
+
 
     @PostMapping("/register")
     public NewUserRespDTO createUser(@RequestBody @Validated NewUserDTO payload, BindingResult validation){
