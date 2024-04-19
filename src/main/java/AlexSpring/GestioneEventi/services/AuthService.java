@@ -7,6 +7,7 @@ import AlexSpring.GestioneEventi.payloads.UserLoginDTO;
 import AlexSpring.GestioneEventi.repositories.UserDAO;
 import AlexSpring.GestioneEventi.security.JWTTools;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -22,6 +23,8 @@ public class AuthService {
 
     @Autowired
     private JWTTools jwtTools;
+    @Autowired
+    private PasswordEncoder bcrypt;
 
 
     public User findById(UUID userId){
@@ -38,7 +41,7 @@ public class AuthService {
 
         User user = this.userService.findByEmail(payload.email());
         //* SE SONO QUI VUOL DIRE CHE NON HA THROWATO UN EXCEPTION NEL FIND EMAIL
-        if (user.getPassword().equals(payload.password())){
+        if (bcrypt.matches(payload.password(), user.getPassword())){
             //? PASSWORD NEL DB UGUALE AL PAYLOAD?
             //* ALLORA CREO IL TOKEN
             return jwtTools.createToken(user);
