@@ -46,9 +46,15 @@ public class UserService {
             throw new BadRequestException("L'email " + body.email() + " è già in uso");
         });
 
+        if (body.role()== null) {
         User newUser = new User(body.name(), body.surname(), body.email(), body.password());
-
         return this.userDAO.save(newUser);
+
+        }else {
+             User newUser = new User(body.name(), body.surname(), body.email(), body.password(),body.role());
+            return this.userDAO.save(newUser);
+        }
+
     }
 
     public User findByEmail(String email) {

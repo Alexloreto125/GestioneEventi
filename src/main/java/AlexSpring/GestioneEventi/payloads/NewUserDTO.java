@@ -1,7 +1,9 @@
 package AlexSpring.GestioneEventi.payloads;
 
+import AlexSpring.GestioneEventi.entities.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record NewUserDTO(
@@ -22,6 +24,10 @@ public record NewUserDTO(
 
         @NotEmpty(message = "La password è obbligatoria")
         @Size(min = 4, message = "La password deve avere come minimo 8 caratteri")
-        String password
+        String password,
+
+
+        Role role
+
 ) {
 }

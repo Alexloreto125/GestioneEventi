@@ -23,5 +23,8 @@ public record NewEventDTO(
         String tipologia_evento
 
 
+
+
+
 ) {
 }
