@@ -27,7 +27,7 @@ public class AuthController {
 
     @GetMapping
     public Page<User> getAllUsers(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "20") int size,@RequestParam(defaultValue = "surname") String sortBy){
-    return this.userService.getUsers(page,size,sortBy);
+        return this.userService.getUsers(page,size,sortBy);
     }
 
     @PostMapping("/register")
