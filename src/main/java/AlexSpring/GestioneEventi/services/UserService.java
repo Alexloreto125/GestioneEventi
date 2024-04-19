@@ -19,6 +19,7 @@ public class UserService {
 
     //! CREIAMO IL METODO PER RIPORTARE GLI USERS
     //TODO ABBIAMO USATO IL PAGEABLE E IL METODO USER DAO INTEGRATO CON JPA REPOSITORY
+    //TODO SOLO GLI ORGANIZZATORI POSSONO AVERE QUESTO METODO
     public Page<User> getUsers(int page, int size, String sortBy) {
         if (size > 100) size = 100;
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
