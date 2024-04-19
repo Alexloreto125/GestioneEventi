@@ -1,6 +1,7 @@
 package AlexSpring.GestioneEventi.security;
 
 import AlexSpring.GestioneEventi.entities.User;
+import AlexSpring.GestioneEventi.exceptions.UnauthorizedException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +23,17 @@ public class JWTTools {
 
     }
 
+    public void verifyToken(String token){
+        try {
+            Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build().parse(token);
+        }catch (Exception exception){
+            throw  new UnauthorizedException("Problemi con token");
+        }
+    }
 
+    public String extractIdFromToken(String token){
+        return Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build().parseSignedClaims(token).getPayload().getSubject();
+    }
 
 
 }
