@@ -72,4 +72,9 @@ public class AuthService {
     return this.userDAO.save(found);
 
     }
+
+    public  void  findByIdAndDelete(UUID userId){
+        User found= this.userDAO.findById(userId).orElseThrow(()-> new NotFoundException(userId));
+        this.userDAO.delete(found);
+    }
 }
