@@ -26,11 +26,32 @@ public class ExceptionsHandler {
         }
     }
 
+    @ExceptionHandler(DuplicatedParticipationException.class)
+    @ResponseStatus(HttpStatus.NOT_MODIFIED)
+    public ErrorsResponseDTO handleNotDuplicate(BadRequestException ex){
+        if (ex.getErrorList() != null) {
+
+            String message = ex.getErrorList().stream().map(objectError -> objectError.getDefaultMessage()).collect(Collectors.joining(". "));
+            return new ErrorsResponseDTO(message, LocalDateTime.now());
+
+        } else {
+            return new ErrorsResponseDTO(ex.getMessage(), LocalDateTime.now());
+        }
+
+    }
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ErrorsResponseDTO handleNotFound(NotFoundException notFoundException) {
-        return new ErrorsResponseDTO(notFoundException.getMessage(), LocalDateTime.now());
+    public ErrorsResponseDTO handleNotFound(BadRequestException ex) {
+        if (ex.getErrorList() != null) {
+
+            String message = ex.getErrorList().stream().map(objectError -> objectError.getDefaultMessage()).collect(Collectors.joining(". "));
+            return new ErrorsResponseDTO(message, LocalDateTime.now());
+
+        } else {
+            return new ErrorsResponseDTO(ex.getMessage(), LocalDateTime.now());
+        }
+
     }
 
 
@@ -46,5 +67,6 @@ public class ExceptionsHandler {
     public ErrorsResponseDTO handleForbidden(AccessDeniedException ex){
         return new ErrorsResponseDTO("Non hai accesso a questa funzionalità!", LocalDateTime.now());
     }
+
 
 }

@@ -58,11 +58,11 @@ public class UserService {
 
 
     public Partecipazioni addUserToEvent(User user, Long eventId){
-        Events event= this.eventDAO.findById(eventId).orElseThrow(()->new NotFoundException(String.valueOf(eventId)));
+        Events event= this.eventDAO.findById(eventId).orElseThrow(()->new NotFoundException("Evento con id "+ eventId+ " non trovato"));
 
         Partecipazioni existingPartecipazione = partecipazioniDAO.findByUserAndEvent(user, event);
         if (existingPartecipazione != null) {
-            throw new DuplicatedParticipationException("L'utente è già associato a questo evento.");
+            throw new BadRequestException("L'utente è già associato a questo evento.");
         }
 
 
@@ -76,7 +76,7 @@ public class UserService {
     }
 
     public void deletePartecipazioni(Long id){
-        Partecipazioni parteci= this.partecipazioniDAO.findById(id).orElseThrow(()->new NotFoundException(String.valueOf(id)));
+        Partecipazioni parteci= this.partecipazioniDAO.findById(id).orElseThrow(()->new NotFoundException("Partecipazione con id "+ id+ " non trovata"));
 
         this.partecipazioniDAO.delete(parteci);
     }

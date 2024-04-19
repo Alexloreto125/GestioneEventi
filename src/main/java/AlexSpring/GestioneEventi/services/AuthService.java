@@ -25,7 +25,7 @@ public class AuthService {
 
 
     public User findById(UUID userId){
-        return this.userDAO.findById(userId).orElseThrow(()->new NotFoundException(userId));
+        return this.userDAO.findById(userId).orElseThrow(()->new NotFoundException("L'utente con id "+ userId+ " non è stato trovato"));
 
 
     }
@@ -74,7 +74,7 @@ public class AuthService {
     }
 
     public  void  findByIdAndDelete(UUID userId){
-        User found= this.userDAO.findById(userId).orElseThrow(()-> new NotFoundException(userId));
+        User found= this.userDAO.findById(userId).orElseThrow(()-> new NotFoundException("L'utente con id "+ userId+ " non è stato trovato"));
         this.userDAO.delete(found);
     }
 }

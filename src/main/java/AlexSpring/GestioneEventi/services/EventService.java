@@ -19,8 +19,8 @@ public class EventService {
     @Autowired
     private EventDAO eventDAO;
 
-    public Events findById(Long userId) {
-        return this.eventDAO.findById(userId).orElseThrow(() -> new NotFoundException(String.valueOf(userId)));
+    public Events findById(Long eventId) {
+        return this.eventDAO.findById(eventId).orElseThrow(() -> new NotFoundException("L'evento con id"+ eventId+ " non è stato trovato"));
 
 
     }
@@ -66,7 +66,7 @@ public class EventService {
     }
 
     public void delete(Long id) {
-        Events found = this.eventDAO.findById(id).orElseThrow(()-> new NotFoundException(String.valueOf(id)));
+        Events found = this.eventDAO.findById(id).orElseThrow(()-> new NotFoundException("L'evento con id"+ id+ " non è stato trovato"));
         this.eventDAO.delete(found);
     }
 
