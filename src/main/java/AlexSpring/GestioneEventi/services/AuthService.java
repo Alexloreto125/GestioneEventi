@@ -47,4 +47,29 @@ public class AuthService {
         }
 
     }
+
+
+    public User updateUser(UUID userId,User userUpdate){
+
+    User found= this.findById(userId);
+
+    if (userUpdate.getName()!= null){
+        found.setName(userUpdate.getName());
+    }
+
+    if (userUpdate.getSurname()!= null){
+        found.setSurname(userUpdate.getSurname());
+    }
+
+    if (userUpdate.getEmail()!= null){
+        found.setEmail(userUpdate.getEmail());
+    }
+
+    if (userUpdate.getPassword() != null){
+        found.setPassword(userUpdate.getPassword());
+    }
+
+    return this.userDAO.save(found);
+
+    }
 }
