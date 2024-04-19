@@ -59,11 +59,17 @@ public class UserService {
     public Partecipazioni addUserToEvent(User user, Long eventId){
         Events event= this.eventDAO.findById(eventId).orElseThrow(()->new NotFoundException(String.valueOf(eventId)));
         Partecipazioni partecipazioni= new Partecipazioni();
-//        partecipazioni.setUser(user);
+        partecipazioni.setUser(user);
         partecipazioni.setName(user.getName());
         partecipazioni.setSurname(user.getUsername());
         partecipazioni.setEvent(event);
       return   partecipazioniDAO.save(partecipazioni);
+    }
+
+    public void deletePartecipazioni(Long id){
+        Partecipazioni parteci= this.partecipazioniDAO.findById(id).orElseThrow(()->new NotFoundException(String.valueOf(id)));
+
+        this.partecipazioniDAO.delete(parteci);
     }
 
 }

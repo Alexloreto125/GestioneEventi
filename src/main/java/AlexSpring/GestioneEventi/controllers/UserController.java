@@ -55,11 +55,16 @@ public class UserController {
     //* PUO' PRENOTARSI AD UN EVENTO
 
 
-    @PostMapping("me/add/event")
+    @PostMapping("me/event")
     public PartecipazioneRespDTO addToEvenet(@AuthenticationPrincipal User currentUser, @RequestBody @Validated PartecipazioneDTO body) {
         Long eventId= body.id_evento();
         Partecipazioni partecipazioni= userService.addUserToEvent(currentUser,eventId);
         return new PartecipazioneRespDTO(partecipazioni.getId());
     }
 
+    @DeleteMapping("me/event/{eventId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletePartecipazioni(@PathVariable Long eventId){
+        this.userService.deletePartecipazioni(eventId);
+    }
 }
