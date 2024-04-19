@@ -4,6 +4,7 @@ import AlexSpring.GestioneEventi.entities.Events;
 import AlexSpring.GestioneEventi.entities.Partecipazioni;
 import AlexSpring.GestioneEventi.entities.User;
 import AlexSpring.GestioneEventi.exceptions.BadRequestException;
+import AlexSpring.GestioneEventi.exceptions.DuplicatedParticipationException;
 import AlexSpring.GestioneEventi.exceptions.NotFoundException;
 import AlexSpring.GestioneEventi.payloads.NewUserDTO;
 import AlexSpring.GestioneEventi.repositories.EventDAO;
@@ -58,6 +59,14 @@ public class UserService {
 
     public Partecipazioni addUserToEvent(User user, Long eventId){
         Events event= this.eventDAO.findById(eventId).orElseThrow(()->new NotFoundException(String.valueOf(eventId)));
+
+        Partecipazioni existingPartecipazione = partecipazioniDAO.findByUserAndEvent(user, event);
+        if (existingPartecipazione != null) {
+            throw new DuplicatedParticipationException("L'utente è già associato a questo evento.");
+        }
+
+
+
         Partecipazioni partecipazioni= new Partecipazioni();
         partecipazioni.setUser(user);
         partecipazioni.setName(user.getName());
