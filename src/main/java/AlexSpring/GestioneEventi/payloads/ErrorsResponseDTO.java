@@ -1,4 +1,4 @@
-package AlexSpring.GestioneEventi.exceptions;
+package AlexSpring.GestioneEventi.payloads;
 
 import java.time.LocalDateTime;
 
